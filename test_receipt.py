@@ -11,7 +11,7 @@ token = os.getenv("A2A_BEARER_TOKEN")
 body = {
     "message": {
         "messageId": "test-receipt-message-002",
-        "taskId": "b016fdf9-ee71-4e82-8acc-df7f236f6afd",
+        "taskId": "c1bc149b-f49a-4d1e-b74a-1202733f1a37",
         "role": "ROLE_USER",
         "parts": [{
             "mediaType": "application/vnd.ga5.invoice-action-results+json",
@@ -30,7 +30,7 @@ body = {
 }
 
 request = urllib.request.Request(
-    "http://127.0.0.1:5000/a2a/message:send",
+    "https://invoice-agent-17mh.onrender.com/a2a/message:send",
     data=json.dumps(body).encode("utf-8"),
     headers={
         "Authorization": f"Bearer {token}",
