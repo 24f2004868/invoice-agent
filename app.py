@@ -36,7 +36,10 @@ def home():
 
 @app.route("/.well-known/agent-card.json", methods=["GET"])
 def agent_card():
-    base_url = os.getenv("A2A_BASE_URL", "http://127.0.0.1:5000/a2a/")
+    base_url = os.getenv(
+    "A2A_BASE_URL",
+    "https://invoice-agent-17mh.onrender.com/a2a/"
+)
     return jsonify({
         "name": "A2A Invoice Agent",
         "description": "An invoice agent that evaluates invoice evidence and proposes safe business actions.",
