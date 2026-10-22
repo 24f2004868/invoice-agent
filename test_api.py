@@ -50,7 +50,7 @@ body = {
 }
 
 request = urllib.request.Request(
-    "http://127.0.0.1:5000/a2a/message:send",
+    "https://invoice-agent-17mh.onrender.com/a2a/message:send",
     data=json.dumps(body).encode("utf-8"),
     headers={
         "Authorization": f"Bearer {token}",

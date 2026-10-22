@@ -1,6 +1,7 @@
 import hashlib
 import json
 import os
+import time
 
 from decision_cache import get_cached_decision, cache_decision
 
@@ -10,7 +11,7 @@ from google import genai
 load_dotenv()
 
 API_KEY = os.getenv("GEMINI_API_KEY")
-MODEL_NAME = "gemini-3.5-flash"
+MODEL_NAME = "gemini-2.5-flash"
 
 if not API_KEY:
     raise RuntimeError(
@@ -124,14 +125,21 @@ Packages:
 {json.dumps(uncached_packages, ensure_ascii=False, sort_keys=True)}
 """
 
-    response = client.models.generate_content(
-        model=MODEL_NAME,
-        contents=prompt,
-        config={
-            "response_mime_type": "application/json",
-            "response_schema": DECISION_SCHEMA,
-        },
-    )
+    for attempt in range(3):
+        try:
+            response = client.models.generate_content(
+                model=MODEL_NAME,
+                contents=prompt,
+                config={
+                    "response_mime_type": "application/json",
+                    "response_schema": DECISION_SCHEMA,
+                },
+            )
+            break
+        except Exception:
+            if attempt == 2:
+                raise
+            time.sleep(2 ** attempt)
 
     if not response.text:
         raise RuntimeError("Gemini returned an empty response.")
