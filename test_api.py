@@ -44,7 +44,8 @@ body = {
         "returnImmediately": False,
         "historyLength": 20,
         "acceptedOutputModes": [
-            "application/vnd.ga5.invoice-action-proposals+json"
+            "application/vnd.ga5.invoice-action-proposals+json",
+            "application/vnd.ga5.invoice-action-receipts+json"
         ]
     }
 }
