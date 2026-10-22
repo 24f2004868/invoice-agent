@@ -17,7 +17,12 @@ RECEIPT_MODE = "application/vnd.ga5.invoice-action-receipts+json"
 
 app = Flask(__name__)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///invoice_agent.db"
+database_url = os.getenv("DATABASE_URL", "sqlite:///invoice_agent.db")
+
+if database_url.startswith("postgres://"):
+    database_url = database_url.replace("postgres://", "postgresql://", 1)
+
+app.config["SQLALCHEMY_DATABASE_URI"] = database_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # Configure a real token in your local .env before testing protected routes.
