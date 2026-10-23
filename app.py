@@ -17,6 +17,12 @@ RECEIPT_MODE = "application/vnd.ga5.invoice-action-receipts+json"
 
 app = Flask(__name__)
 
+@app.after_request
+def set_a2a_content_type(response):
+    if request.path.startswith("/a2a/") and response.status_code < 400:
+        response.headers["Content-Type"] = "application/a2a+json"
+    return response
+
 database_url = os.getenv("DATABASE_URL", "sqlite:///invoice_agent.db")
 
 if database_url.startswith("postgres://"):
