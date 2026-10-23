@@ -384,7 +384,7 @@ def send_message():
                     re.findall(r"\[([A-Za-z0-9_-]+)\]", text)
                 )
 
-        evidence_refs = decision.get("evidenceRefs")
+        evidence_refs = decision.get("evidenceRefs")       
         if (
             not isinstance(evidence_refs, list)
             or len(evidence_refs) != 3

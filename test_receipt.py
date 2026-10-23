@@ -11,7 +11,7 @@ token = os.getenv("A2A_BEARER_TOKEN")
 body = {
     "message": {
         "messageId": "test-receipt-message-002",
-        "taskId": "3d8a224f-5d43-4fd3-b5d6-bb2abf4a9664",
+        "taskId": "bedd6208-de7c-4c0b-818a-9f013cbb3e85",
         "role": "ROLE_USER",
         "parts": [{
             "mediaType": "application/vnd.ga5.invoice-action-results+json",
