@@ -125,7 +125,7 @@ Packages:
 {json.dumps(uncached_packages, ensure_ascii=False, sort_keys=True)}
 """
 
-    for attempt in range(3):
+    for attempt in range(1):
         try:
             response = client.models.generate_content(
                 model=MODEL_NAME,
