@@ -3,13 +3,10 @@ import hashlib
 import json
 from copy import deepcopy
 
-# In-memory cache for development.
-# We will replace this with persistent storage before deployment.
-_DECISION_CACHE = {}
+from models import db, DecisionCache
 
 
 def canonical_package_key(package, policy_revision):
-    """Create a stable key from package content and policy."""
     canonical_data = {
         "package": package,
         "policyRevision": policy_revision,
@@ -22,15 +19,31 @@ def canonical_package_key(package, policy_revision):
         ensure_ascii=False,
     )
 
-    return hashlib.sha256(canonical_json.encode("utf-8")).hexdigest()
+    return hashlib.sha256(
+        canonical_json.encode("utf-8")
+    ).hexdigest()
 
 
 def get_cached_decision(package, policy_revision):
     key = canonical_package_key(package, policy_revision)
-    decision = _DECISION_CACHE.get(key)
-    return deepcopy(decision) if decision is not None else None
+
+    record = DecisionCache.query.filter_by(cache_key=key).first()
+
+    if record is None:
+        return None
+
+    return deepcopy(record.decision)
 
 
 def cache_decision(package, policy_revision, decision):
     key = canonical_package_key(package, policy_revision)
-    _DECISION_CACHE[key] = deepcopy(decision)
+
+    record = DecisionCache.query.filter_by(cache_key=key).first()
+
+    if record is None:
+        record = DecisionCache(
+            cache_key=key,
+            decision=deepcopy(decision),
+        )
+        db.session.add(record)
+        db.session.commit()
