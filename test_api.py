@@ -13,7 +13,7 @@ if not token:
 
 body = {
     "message": {
-        "messageId": "test-message-003",
+        "messageId": "test-message-cache-005",
         "role": "ROLE_USER",
         "parts": [{
             "mediaType": "application/vnd.ga5.invoice-claim-batch+json",

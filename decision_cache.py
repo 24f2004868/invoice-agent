@@ -28,6 +28,7 @@ def get_cached_decision(package, policy_revision):
     key = canonical_package_key(package, policy_revision)
 
     record = DecisionCache.query.filter_by(cache_key=key).first()
+    print("CACHE HIT" if record is not None else "CACHE MISS", flush=True)
 
     if record is None:
         return None
